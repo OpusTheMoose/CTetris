@@ -2,6 +2,10 @@
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 
+/*
+    TODO
+    Move app information to a seperate file. This makes it clearer which file to include
+*/ 
 static struct m_app
 {
     SDL_Window* window;

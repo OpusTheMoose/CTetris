@@ -5,8 +5,11 @@
 
 int main()
 {
-    m_createSprite(0, 0, "include/TEST_TEXTURE.PNG");
+    
     m_create_window(200, 600);
+
+    m_createSprite(80, 80, "../../../include/TEST_TEXTURE.png");
+
     m_render_window();
     m_destroy_window();
 

@@ -44,7 +44,11 @@ void m_render_window()
             }
         }
         SDL_RenderClear(app.renderer);
-        SDL_RenderCopy(app.renderer, list_of_sprites[0].texture, NULL, &list_of_sprites[0].texture_rect);
+        for (int i = 0; i < num_of_sprites; i++)
+        {
+            SDL_RenderCopy(app.renderer, sprite_list[i].texture, NULL, &sprite_list[i].texture_rect);
+        }
+      
         SDL_RenderPresent(app.renderer);
     }
 }
@@ -52,5 +56,10 @@ void m_destroy_window()
 {
     SDL_DestroyRenderer(app.renderer);
     SDL_DestroyWindow(app.window);
+    for (int i = 0; i < num_of_sprites; i++)
+    {
+        SDL_DestroyTexture(sprite_list[i].texture);
+    }
+    free(sprite_list);
     
 }

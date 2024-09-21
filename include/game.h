@@ -1,7 +1,25 @@
 #include <stdbool.h>
 #include "sprite.h"
+#pragma once
 
-bool grid[20][10] =
+extern int accum;
+/*
+Inital coordinates for straight
+(defined y1, x1)
+[0, 0]
+[0, 1]
+[0, 2]
+[0, 3]
+*/
+
+/*
+Inital coordinates for square
+[0, 0]
+[0, 1]
+[1, 0]
+[1, 1]
+*/
+static Uint8 grid[20][10] =
 {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -27,4 +45,5 @@ bool grid[20][10] =
 
 };
 
-void game_spawn_piece(Grid_Pos x, Grid_Pos y);
+void m_game_start();
+void m_game_update(int dt);

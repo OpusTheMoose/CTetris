@@ -2,6 +2,7 @@
 #include "../include/app.h"
 #include "../include/sprite.h"
 
+
 void m_create_window(unsigned int width, unsigned int height)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -31,8 +32,10 @@ void m_create_window(unsigned int width, unsigned int height)
 }
 void m_render_window()
 {
+    int last_frame = 0;
     while (app.window_open)
     {
+       int current_frame = SDL_GetTicks64();
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
@@ -44,12 +47,17 @@ void m_render_window()
             }
         }
         SDL_RenderClear(app.renderer);
+        
+        m_game_update(current_frame - last_frame);
+       
         for (int i = 0; i < num_of_sprites; i++)
         {
             SDL_RenderCopy(app.renderer, sprite_list[i].texture, NULL, &sprite_list[i].texture_rect);
         }
+       
       
         SDL_RenderPresent(app.renderer);
+         last_frame = current_frame;
     }
 }
 void m_destroy_window()

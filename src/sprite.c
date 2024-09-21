@@ -4,12 +4,17 @@
 #include "../include/app.h"
 
 
-size_t num_of_sprites = 0;
+unsigned int num_of_sprites = 0;
+unsigned int index1 = 0;
+unsigned int index2 = 0;
 struct sprite* sprite_list; 
-struct sprite* m_createSprite(float x, float y, float w, float h, const char* file)
+struct sprite* temp[4]; 
+
+void m_createSprite(float x, float y, float w, float h, const char* file)
 {
    
     SDL_Texture *tex = IMG_LoadTexture(app.renderer, file);
+   
     if (tex == NULL)
     {
         printf("ERROR: Failed to create texture: ");
@@ -22,13 +27,25 @@ struct sprite* m_createSprite(float x, float y, float w, float h, const char* fi
     texture_rect.h = h;
     texture_rect.w = w;
 
-    num_of_sprites++;
-    sprite_list = realloc(sprite_list, num_of_sprites * sizeof(struct sprite));
-    sprite_list[num_of_sprites - 1].texture = tex;
-    sprite_list[num_of_sprites - 1].texture_rect = texture_rect;
 
-    return &sprite_list[num_of_sprites - 1];
-    
+    num_of_sprites++;
+    struct sprite *temp = realloc(sprite_list, num_of_sprites * sizeof(struct sprite));
+    if (temp == NULL)
+    {
+        printf("ERROR: Failed to allocate memory for sprite. \n");
+        exit(0);
+    }
+    else
+    {
+        sprite_list = temp;
+    }
+
+    sprite_list[num_of_sprites - 1].texture = tex;
+    sprite_list[num_of_sprites - 1].texture_rect.x = x;
+    sprite_list[num_of_sprites - 1].texture_rect.y = y;
+    sprite_list[num_of_sprites - 1].texture_rect.w = w;
+    sprite_list[num_of_sprites - 1].texture_rect.h = h;
+
 }
 /*
 Creates a tetromino consisting of 4 sprites. w h just controls the size of each individual sprite. x, y is the center.
@@ -42,38 +59,42 @@ Piece name is 0-4:
 */
 void m_createTetromino(float x, float y, float w, float h, const char* file, unsigned int piece_name)
 {
-    struct tetromino active_piece;
+    index1 = num_of_sprites;
     switch (piece_name)
     {
+        
         case 0:
-            active_piece.spite_data[0] = m_createSprite(x, y, w, h, file);
-            active_piece.spite_data[1] = m_createSprite(x + w, y, w, h, file);
-            active_piece.spite_data[2] = m_createSprite(x + (2 * w), y, w, h, file);
-            active_piece.spite_data[3] = m_createSprite(x + (3 * w), y, w, h, file);
+          
+            m_createSprite(x, y, w, h, file);
+            m_createSprite(x + w, y, w, h, file);
+            m_createSprite(x + (2 * w), y, w, h, file);
+            m_createSprite(x + (3 * w), y, w, h, file);
+           
             break;
+      
         case 1:
-            active_piece.spite_data[0] = m_createSprite(x, y, w, h, file);
-            active_piece.spite_data[1] = m_createSprite(x + w, y, w, h, file);
-            active_piece.spite_data[2] = m_createSprite(x, y + h, w, h, file);
-            active_piece.spite_data[3] = m_createSprite(x + w, y + h, w, h, file);
+             m_createSprite(x, y, w, h, file);
+             m_createSprite(x + w, y, w, h, file);
+             m_createSprite(x, y + h, w, h, file);
+             m_createSprite(x + w, y + h, w, h, file);
             break;
         case 2:
-            active_piece.spite_data[0] = m_createSprite(x, y, w, h, file);
-            active_piece.spite_data[1] = m_createSprite(x - w, y, w, h, file);
-            active_piece.spite_data[2] = m_createSprite(x + w, y, w, h, file);
-            active_piece.spite_data[3] = m_createSprite(x, y + h, w, h, file);
+            m_createSprite(x, y, w, h, file);
+            m_createSprite(x - w, y, w, h, file);
+            m_createSprite(x + w, y, w, h, file);
+            m_createSprite(x, y + h, w, h, file);
             break;
         case 3:
-            active_piece.spite_data[0] = m_createSprite(x, y, w, h, file);
-            active_piece.spite_data[1] = m_createSprite(x, y + h, w, h, file);
-            active_piece.spite_data[2] = m_createSprite(x, y + (2 * h), w, h, file);
-            active_piece.spite_data[3] = m_createSprite(x + w, y + (2 * h), w, h, file);
+           m_createSprite(x, y, w, h, file);
+           m_createSprite(x, y + h, w, h, file);
+           m_createSprite(x, y + (2 * h), w, h, file);
+           m_createSprite(x + w, y + (2 * h), w, h, file);
             break;
         case 4:
-            active_piece.spite_data[0] = m_createSprite(x, y, w, h, file);
-            active_piece.spite_data[1] = m_createSprite(x - w, y, w, h, file);
-            active_piece.spite_data[2] = m_createSprite(x, y + h, w, h, file);
-            active_piece.spite_data[3] = m_createSprite(x + w, y + h, w, h, file);
+           m_createSprite(x, y, w, h, file);
+           m_createSprite(x - w, y, w, h, file);
+           m_createSprite(x, y + h, w, h, file);
+           m_createSprite(x + w, y + h, w, h, file);
             break;
 
         default:
@@ -81,4 +102,25 @@ void m_createTetromino(float x, float y, float w, float h, const char* file, uns
             break;
 
     }
+     index2 = num_of_sprites;
+    
+
+    
+}
+/*
+Update the sprite positions of the piece.
+Adds the VALUES PASSED IN, it does NOT set the position.
+
+*/
+void m_UpdateActivePiece(float x, float y)
+{
+  
+    for (int i = index1; i < index2; i++)
+    {
+        sprite_list[i].texture_rect.x += x;
+        sprite_list[i].texture_rect.y += y;
+    }
+
+    
+ 
 }

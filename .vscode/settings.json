@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "sprite.h": "c",
-        "stb_image.h": "c"
+        "stb_image.h": "c",
+        "stdlib.h": "c"
     }
 }

@@ -1,27 +1,74 @@
 #include "../include/game.h"
+#include "../include/piece_info.h"
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <time.h>
 #define ACTIVE_SEGMENT 15
+#define ROWS 20
+#define COLS 10
+
+Uint8 grid[20][10] =
+{
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+
+
+};
+
+struct current_piece{
+    Uint8 x;
+    Uint8 y;
+    Uint8 id;
+    Uint8 dir;
+} current;
+
+void m_set_piece(Uint8 x, Uint8 y, Uint8 id, Uint8 dir)
+{
+    current.x = x;
+    current.y = y;
+    current.id = id;
+    current.dir = dir;
+}
 void m_game_start()
 {
    unsigned int seed = time(0);
    unsigned int piece = rand_r(&seed) % 5;
-   m_createTetromino(128, 0, 32, 32, "include/tile.png", piece);
-    m_game_spawn_tetromino(piece);
+
+   m_set_piece(3, 0, 0, 0);
+   m_game_set_grid_pos(current.x, current.y, current.id, current.dir, 1);
+
 }
 int accum = 0;
+int yy = 1;
 void m_game_update(int dt)
 {
     
-    
     accum += dt;
     if (accum == 1000) //every second
-    { 
-        printf("%d \n", accum);
-        m_UpdateActivePiece(0, 32);
+    {
+        m_game_set_grid_pos(current.x, current.y, current.id, current.dir, 0);
+        m_game_set_grid_pos(current.x, yy, 0, 0, 1);
+        m_set_piece(current.x, yy, current.id, current.dir);
+        yy++;
         accum = 0;
-        //printf("%d \n", accum);
     }
     
     
@@ -36,41 +83,32 @@ void printBoard()
         }
         printf("\n");
     }
+    printf("------------------\n");
 }
-void m_game_spawn_tetromino(Uint8 id)
+void m_game_set_grid_pos(Uint8 x, Uint8 y, Uint8 id, Uint8 dir, Uint8 val)
 {
-    switch (id)
+    
+    int blocks_rotation = ROTATION_ARRAYS[(id * 4) + dir];
+         
+    int row = 0, col = 0;
+    for(int bit = 0x8000; bit > 0; bit = bit >> 1)
     {
-    case 0: //Straight
-        grid[0][3] = ACTIVE_SEGMENT;
-        grid[0][4] = ACTIVE_SEGMENT;
-        grid[0][5] = ACTIVE_SEGMENT;
-        grid[0][6] = ACTIVE_SEGMENT;
-        printBoard();
-        break;
-    case 1: //Square
-        grid[0][4] = ACTIVE_SEGMENT;
-        grid[0][5] = ACTIVE_SEGMENT;
-        grid[1][4] = ACTIVE_SEGMENT;
-        grid[1][5] = ACTIVE_SEGMENT;
-        printBoard();
-        break;
-    case 2: //T
-        grid[0][4] = ACTIVE_SEGMENT;
-        grid[0][5] = ACTIVE_SEGMENT;
-        grid[0][6] = ACTIVE_SEGMENT;
-        grid[1][5] = ACTIVE_SEGMENT;
-        printBoard();
-        break;
-    case 3: //L
-        grid[0][4] = ACTIVE_SEGMENT;
-        grid[0][5] = ACTIVE_SEGMENT;
-        grid[0][6] = ACTIVE_SEGMENT;
-        grid[1][4] = ACTIVE_SEGMENT;
-        printBoard();
-        break;
+        if (blocks_rotation & bit)
+        {
+            grid[y + row][x + col] = val;
+        }
+        if (++col == 4)
+        {
+            col = 0;
+            ++row;
+        }
         
-    default:
-        break;
     }
+    printBoard();
+   
+    
+}
+bool m_is_piece_valid(Uint8 x, Uint8 y, Uint8 dir)
+{
+
 }

@@ -13,8 +13,6 @@ struct sprite{
 };
 
 
-
 void m_createSprite(float x, float y, float w, float h, const char* file);
-void m_createTetromino(float x, float y, float w, float h, const char* file, unsigned int piece_name);
-void m_UpdateActivePiece(float x, float y);
-void m_game_spawn_tetromino(Uint8 id);
+void m_update_sprites();
+void m_remove_sprite(int x, int y);

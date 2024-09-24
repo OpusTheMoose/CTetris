@@ -1,6 +1,7 @@
 #include "../include/window.h"
 #include "../include/app.h"
 #include "../include/sprite.h"
+#include "../include/game.h"
 
 
 void m_create_window(unsigned int width, unsigned int height)
@@ -49,7 +50,9 @@ void m_render_window()
         SDL_RenderClear(app.renderer);
         
         m_game_update(current_frame - last_frame);
-       
+
+        m_update_sprites();
+
         for (int i = 0; i < num_of_sprites; i++)
         {
             SDL_RenderCopy(app.renderer, sprite_list[i].texture, NULL, &sprite_list[i].texture_rect);

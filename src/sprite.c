@@ -75,9 +75,8 @@ void m_update_sprites()
         }
     }
 }
-void m_update_player(Uint8 x, Uint8 y, Uint8 Matrix_N, Uint8 *matrix[4])
+void m_update_player(Int8 x, Int8 y, Uint8 Matrix_N, Uint8 *matrix[4])
 {
-  
     for (int i = 0; i < 4; i++)
     {
         m_remove_sprite_by_id(PLAYER_ID);
@@ -90,6 +89,7 @@ void m_update_player(Uint8 x, Uint8 y, Uint8 Matrix_N, Uint8 *matrix[4])
             if (matrix[j][i] == 1)
             {
                 //Should always be pushed at the end of the list.
+                //Weird offset because janky code is janky
                 m_createSprite((x + i) * 32, (y + j) * 32, 32, 32, "include/tile.png");
                 sprite_list[num_of_sprites - 1].id = PLAYER_ID;
             }

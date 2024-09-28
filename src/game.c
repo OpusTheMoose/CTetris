@@ -63,7 +63,6 @@ void rotate90CounterClockwise()
             current.matrix[bottom - (j - top)][top] = temp;
         }
     }
-   // m_update_player(current.x, current.y, MATRIX_N, current.matrix);
 }
 void rotate90Clockwise()
 {
@@ -81,14 +80,12 @@ void rotate90Clockwise()
             current.matrix[j][MATRIX_N - 1 - i] = temp;
         }
     }
-     //m_update_player(current.x, current.y, MATRIX_N, current.matrix);
 }
 
 void m_game_start()
 {
    
   m_create_piece();
-  //m_update_player(current.x, current.y, current.matrix_N, current.matrix);
 
 }
 int accum = 0;
@@ -100,20 +97,28 @@ void m_game_update(int dt)
     accum += dt;
     if (accum >= 100) //every second
     {
-       m_update_player(current.x, current.y, MATRIX_N, current.matrix);
-       printf( "%d\n", current.x);
-        if (m_is_piece_valid() == true)
-        {
-            current.y = yy;
-            yy++;  
-        }
-
+        m_drop_piece();
         accum = 0;
     }
-    
-    
 }
-void m_game_set_grid_pos(Uint8 x, Uint8 y, Uint8 id, Uint8 dir, Uint8 val)
+void m_drop_piece()
+{
+    m_update_player(current.x, current.y, MATRIX_N, current.matrix);
+    yy++;
+    current.y = yy;
+
+   
+    if (m_is_piece_valid() == false)
+    {
+        
+        m_game_set_grid_pos(current.x, current.y - 1, 1);
+        m_create_piece();
+        yy = 0;
+
+    }
+
+}
+void m_game_set_grid_pos(Int8 x, Int8 y, Uint8 val)
 {
    
     for (int i = 0; i < MATRIX_N; i++)
@@ -131,36 +136,34 @@ void m_game_set_grid_pos(Uint8 x, Uint8 y, Uint8 id, Uint8 dir, Uint8 val)
 void m_create_piece()
 {
    unsigned int seed = time(0);
-   unsigned int piece = rand_r(&seed) % 3;
-   //int piece = 3;
-
+   unsigned int piece = rand_r(&seed) % 4;
     current.y = 0;
     current.id = piece;
 
     switch (piece)
     {
-        case 0:
+        case STRAIGHT:
             for (int i = 0; i < MATRIX_N; i++)
             {
                 current.matrix[i] = MATRIX_I[i];
             }
             current.x = OFFSET_THREE;
             break;
-        case 1:
+        case SQUARE:
             for (int i = 0; i < MATRIX_N; i++)
             {
                 current.matrix[i] = MATRIX_S[i];
             }
             current.x = OFFSET_FOUR;
             break;
-        case 2:
+        case L:
             for (int i = 0; i < MATRIX_N; i++)
             {
                 current.matrix[i] = MATRIX_L[i];
             }
             current.x = OFFSET_FOUR;
             break;
-        case 3:
+        case T:
             for (int i = 0; i < MATRIX_N; i++)
             {
                 current.matrix[i] = MATRIX_T[i];
@@ -169,6 +172,7 @@ void m_create_piece()
             break;
     }
     m_update_player(current.x, current.y, MATRIX_N, current.matrix);
+    m_update_sprites();
 }
 bool m_is_piece_valid()
 {
@@ -178,7 +182,7 @@ bool m_is_piece_valid()
         {
             if (current.matrix[i][j] == 1)
             {
-               if (i + current.y >= ROWS - 1 || j + current.x >= COLS || j + current.x < 0)
+               if (i + current.y >= ROWS || j + current.x > COLS || j + current.x < 0 || grid[current.y + i][current.x + j] == 1)
                {
                 return false;
                }
@@ -198,7 +202,6 @@ void m_handle_input(int key )
                 current.x--;
                 break;
             }
-            m_update_player(current.x, current.y, MATRIX_N, current.matrix);
             break;
         case 'a':
             current.x--;
@@ -207,7 +210,6 @@ void m_handle_input(int key )
                 current.x++;
                 break;
             }
-            m_update_player(current.x, current.y, MATRIX_N, current.matrix);
             break;
         case 'm':
             if (current.id == SQUARE) break;
@@ -217,7 +219,6 @@ void m_handle_input(int key )
                 rotate90CounterClockwise();
                 break;
             }
-            m_update_player(current.x, current.y, MATRIX_N, current.matrix);
 
             break;
         case 'n':
@@ -228,8 +229,9 @@ void m_handle_input(int key )
                 rotate90Clockwise();
                 break;
             }
-            m_update_player(current.x, current.y, MATRIX_N, current.matrix);
+            
 
             break;
     }
+    m_update_player(current.x, current.y, MATRIX_N, current.matrix);
 }

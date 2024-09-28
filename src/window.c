@@ -2,6 +2,13 @@
 #include "../include/app.h"
 #include "../include/sprite.h"
 #include "../include/game.h"
+/*
+0 = MOVE_LEFT
+1 = MOVE_RIGHT
+2 = DROP
+3 = ROTATE_RIGHT
+4 = ROTATE_LEFT
+*/
 
 
 void m_create_window(unsigned int width, unsigned int height)
@@ -46,10 +53,9 @@ void m_render_window()
                     app.window_open = false;
                     break;
                 case SDL_KEYDOWN:
-                    if (event.key.keysym.sym == 'd' )
-                    {
-                        m_rotate_right();
-                    }
+                    m_handle_input(event.key.keysym.sym);
+                    break;
+                    
             }
         }
         SDL_RenderClear(app.renderer);

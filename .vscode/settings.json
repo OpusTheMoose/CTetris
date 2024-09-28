@@ -4,6 +4,7 @@
         "stb_image.h": "c",
         "stdlib.h": "c",
         "piece_info.h": "c",
-        "random": "c"
+        "random": "c",
+        "string_view": "c"
     }
 }

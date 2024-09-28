@@ -82,7 +82,7 @@ void m_update_player(Uint8 x, Uint8 y, Uint8 Matrix_N, Uint8 *matrix[4])
     {
         m_remove_sprite_by_id(PLAYER_ID);
     }
-    int temp  = 0;
+
     for (int i = 0; i < Matrix_N; i++)
     {
         for (int j = 0; j < Matrix_N; j++)

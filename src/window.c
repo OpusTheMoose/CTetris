@@ -45,13 +45,18 @@ void m_render_window()
                 case SDL_QUIT:
                     app.window_open = false;
                     break;
+                case SDL_KEYDOWN:
+                    if (event.key.keysym.sym == 'd' )
+                    {
+                        m_rotate_right();
+                    }
             }
         }
         SDL_RenderClear(app.renderer);
         
         m_game_update(current_frame - last_frame);
 
-        m_update_sprites();
+       // m_update_sprites();
 
         for (int i = 0; i < num_of_sprites; i++)
         {

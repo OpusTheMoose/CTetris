@@ -13,15 +13,17 @@
 */
 
 //Values / system comes from https://codeincomplete.com/articles/javascript-tetris/. HUGE HELP!
-#define NUM_OF_PIECES 1
+// #define NUM_OF_PIECES 1
 
-#define I_PIECE_ID 0
-#define I_ROTATION_0 0x0F00
-#define I_ROTATION_1 0x2222
-#define I_ROTATION_2 0x00F0
-#define I_ROTATION_3 0x4444
+// #define I_PIECE_ID 0
+// #define I_ROTATION_0 0x0F00
+// #define I_ROTATION_1 0x2222
+// #define I_ROTATION_2 0x00F0
+// #define I_ROTATION_3 0x4444
 
-static int ROTATION_ARRAYS[4 * NUM_OF_PIECES] = {I_ROTATION_0, I_ROTATION_1, I_ROTATION_2, I_ROTATION_3};
+// static int ROTATION_ARRAYS[4 * NUM_OF_PIECES] = {I_ROTATION_0, I_ROTATION_1, I_ROTATION_2, I_ROTATION_3};
+
+extern Uint8 MATRIX_I[4][4]; 
 
 
 

@@ -39,3 +39,5 @@ void m_game_set_grid_pos(Int8 x, Int8 y, Uint8 val);
 bool m_is_piece_valid();
 void m_handle_input(int key );
 void m_create_piece();
+void m_check_rows();
+void m_clear_rows(Uint8 row);

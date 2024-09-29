@@ -19,7 +19,7 @@
 
 Uint8 MATRIX_I[MATRIX_N][MATRIX_N] = {{0, 0, 0, 0}, {1, 1, 1, 1}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 Uint8 MATRIX_S[MATRIX_N][MATRIX_N] = {{1, 1, 0, 0}, {1, 1, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-Uint8 MATRIX_L[MATRIX_N][MATRIX_N] = {{1, 0, 0, 0}, {1, 0, 0, 0}, {1, 1, 0, 0}, {0, 0, 0, 0}};
+Uint8 MATRIX_L[MATRIX_N][MATRIX_N] = {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}};
 Uint8 MATRIX_T[MATRIX_N][MATRIX_N] = {{0, 1, 0, 0}, {1, 1, 1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
 Uint8 grid[ROWS][COLS] =
@@ -97,7 +97,9 @@ void m_game_update(int dt)
     accum += dt;
     if (accum >= 100) //every second
     {
+        m_check_rows();
         m_drop_piece();
+        
         accum = 0;
     }
 }
@@ -107,14 +109,11 @@ void m_drop_piece()
     yy++;
     current.y = yy;
 
-   
     if (m_is_piece_valid() == false)
     {
-        
         m_game_set_grid_pos(current.x, current.y - 1, 1);
         m_create_piece();
         yy = 0;
-
     }
 
 }
@@ -182,7 +181,7 @@ bool m_is_piece_valid()
         {
             if (current.matrix[i][j] == 1)
             {
-               if (i + current.y >= ROWS || j + current.x > COLS || j + current.x < 0 || grid[current.y + i][current.x + j] == 1)
+               if (i + current.y >= ROWS || j + current.x >= COLS || j + current.x < 0 || grid[current.y + i][current.x + j] == 1)
                {
                 return false;
                }
@@ -234,4 +233,38 @@ void m_handle_input(int key )
             break;
     }
     m_update_player(current.x, current.y, MATRIX_N, current.matrix);
+}
+void m_check_rows()
+{
+    for (int i = 0; i < ROWS; i++)
+    {
+        for (int j = 0; j < COLS; j++)
+        {
+            if (grid[i][j] == 0) break; //If the block is 0, then go to the next row
+            if (j == COLS - 1)
+            {
+                m_clear_rows(i);
+                
+            }
+        }
+    }
+     m_update_sprites();
+}
+void m_clear_rows(Uint8 row)
+{
+    for (int k = 0; k < COLS; k++)
+    {
+        grid[row][k] = 0;
+    }
+    for (int i = row - 1; i != 0; i--) 
+    {   
+        for (int j = 0; j < COLS; j++)
+        {
+            if (grid[i][j] == 1)
+            {
+                grid[i][j] = 0;
+                grid[i + 1][j] = 1;
+            }
+        }
+    }
 }

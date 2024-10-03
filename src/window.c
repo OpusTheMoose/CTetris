@@ -2,6 +2,8 @@
 #include "../include/app.h"
 #include "../include/sprite.h"
 #include "../include/game.h"
+
+
 /*
 0 = MOVE_LEFT
 1 = MOVE_RIGHT
@@ -63,11 +65,22 @@ void m_render_window()
         m_game_update(current_frame - last_frame);
 
        // m_update_sprites();
-
+        
         for (int i = 0; i < num_of_sprites; i++)
         {
+            
             SDL_RenderCopy(app.renderer, sprite_list[i].texture, NULL, &sprite_list[i].texture_rect);
         }
+        SDL_Rect rect;
+        rect.h = SCREEN_HEIGHT;
+        rect.w = 10;
+        rect.x = 320;
+        rect.y = 0;
+        SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+        SDL_RenderFillRect(app.renderer, &rect);
+         SDL_SetRenderDrawColor(app.renderer, 0,0, 0, SDL_ALPHA_OPAQUE);
+
+         
        
       
         SDL_RenderPresent(app.renderer);

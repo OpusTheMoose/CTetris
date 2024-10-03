@@ -5,6 +5,7 @@
         "stdlib.h": "c",
         "piece_info.h": "c",
         "random": "c",
-        "string_view": "c"
+        "string_view": "c",
+        "sdl.h": "c"
     }
 }

@@ -7,13 +7,14 @@
 int main()
 {
     
-    m_create_window(320, 640);
+    m_create_window(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 
     m_game_start();
   
-
+    //Update loop. Updates game events as well
     m_render_window();
+
     m_destroy_window();
 
     return 0;

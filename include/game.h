@@ -2,24 +2,16 @@
 #include "sprite.h"
 #pragma once
 #define Int8 int8_t
+#define ROWS 20
+#define COLS 10
 
 extern int accum;
-/*
-Inital coordinates for straight
-(defined y1, x1)
-[0, 0]
-[0, 1]
-[0, 2]
-[0, 3]
-*/
 
-/*
-Inital coordinates for square
-[0, 0]
-[0, 1]
-[1, 0]
-[1, 1]
-*/
+enum GAME {
+    GAME_ACTIVE,
+    GAME_OVER
+};
+
 struct player{
     Int8 x;
     Int8 y;
@@ -27,8 +19,10 @@ struct player{
     Uint8 *matrix[4];
 };
 typedef struct player Player;
+typedef enum GAME GAME;
 //extern struct player current;
-extern Uint8 grid[20][10];
+extern Uint8 grid[ROWS][COLS];
+extern GAME game_state;
 
 void rotate90CounterClockwise();
 void rotate90Clockwise();
@@ -41,3 +35,4 @@ void m_handle_input(int key );
 void m_create_piece();
 void m_check_rows();
 void m_clear_rows(Uint8 row);
+void m_game_over();

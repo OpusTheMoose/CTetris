@@ -12,9 +12,11 @@ FetchContent_Declare(SDL2_image
 )
 FetchContent_MakeAvailable(SDL2_image)
 
-add_executable(tetris main.c src/window.c src/sprite.c src/app.c src/game.c src/piece_info.c)
+add_executable(tetris main.c src/window.c src/app.c src/object_pool.c)
 
 target_link_libraries(tetris SDL2::SDL2 SDL2_image::SDL2_image dl m)
+
+target_compile_options(tetris PRIVATE -std=c99 -Wall -Wextra -g)
 
 include(CTest)
 enable_testing()

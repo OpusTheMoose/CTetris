@@ -1,12 +1,13 @@
 #pragma once
 #include <SDL2/SDL.h>
-#include <stdbool.h>
+#define FALSE 0
+#define TRUE 1
 
 struct m_app
 {
     SDL_Window* window;
     SDL_Renderer* renderer;
-    bool window_open;
+    SDL_bool window_open;
 
 };
 

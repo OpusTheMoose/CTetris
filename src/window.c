@@ -48,7 +48,7 @@ void window_renderWindow(Window* window)
                     
             }
         }
-        SDL_RenderClear(window->renderer);
+  
         
         SDL_RenderPresent(window->renderer);
       //  last_frame = current_frame;
@@ -56,7 +56,7 @@ void window_renderWindow(Window* window)
 }
 void window_DestroyWindow(Window *window)
 {
-    printf("Destroying window... \n");
+    printf("Destroyed window \n");
     SDL_DestroyRenderer(window->renderer);
     SDL_DestroyWindow(window->window);
   

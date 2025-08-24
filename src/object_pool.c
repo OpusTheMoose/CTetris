@@ -63,4 +63,5 @@ void object_DestroyPool()
     obj_pool.free_flag = NULL;
     obj_pool.size = 0;
     obj_pool.capacity = 0;
+    printf("Destroyed object pool \n");
 }

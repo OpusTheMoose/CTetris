@@ -3,12 +3,20 @@
 #include "include/window.h"
 #include "include/object_pool.h"
 
+typedef struct{
+    SDL_Rect rect;
+} Sprite;
+
 int main()
 {
-    object_ObjectPool(10, sizeof(int));
-    window_newWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
+    object_ObjectPool(10, sizeof(Sprite));
+    Window window = window_newWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
+    while (window.is_open)
+    {   
+        window_renderWindow(&window);
+    }       
 
-    window_renderWindow();
+    window_DestroyWindow(&window);
     object_DestroyPool();
 
     return 0;

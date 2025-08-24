@@ -5,8 +5,11 @@
 #include <stdio.h>
 
 typedef struct {
-    uint64_t size;
     void* objects;
+    size_t size;
+    size_t capacity;
+    uint8_t *free_flag;
+    
 
 } ObjectPool;
 

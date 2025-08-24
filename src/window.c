@@ -1,49 +1,38 @@
+#include <SDL2/SDL.h>
 #include "../include/window.h"
-#include "../include/app.h"
 
 
-
-/*
-0 = MOVE_LEFT
-1 = MOVE_RIGHT
-2 = DROP
-3 = ROTATE_RIGHT
-4 = ROTATE_LEFT
-*/
-
-
-void window_newWindow(unsigned int width, unsigned int height)
+Window window_newWindow(unsigned int width, unsigned int height)
 {
+    Window window;
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
         printf("ERROR: Failed to initalize SDL2. \n");
         printf("%s", SDL_GetError());
         exit(0);
     }
-    app.window = SDL_CreateWindow("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0 );
-    if (!app.window)
+    window.window = SDL_CreateWindow("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0 );
+    if (!window.window)
     {
         printf("ERROR: Failed to create window. \n");
         printf("%s", SDL_GetError());
         exit(0);
     }
  
-    app.window_open = SDL_TRUE;
-    app.renderer = SDL_CreateRenderer(app.window, 0, 0);
-    if (!app.renderer)
+    window.is_open = SDL_TRUE;
+    window.renderer = SDL_CreateRenderer(window.window, 0, 0);
+    if (!window.renderer)
     {
         printf("ERROR: Failed to create renderer. \n");
         printf("%s", SDL_GetError());
         exit(0);
     }
-
-
+    printf("Window created \n");
+    return window;
 }
-void window_renderWindow()
+void window_renderWindow(Window* window)
 {
-  //  int last_frame = 0;
-    while (app.window_open)
-    {
+ 
       // int current_frame = SDL_GetTicks64();
         SDL_Event event;
         while (SDL_PollEvent(&event))
@@ -51,7 +40,7 @@ void window_renderWindow()
             switch (event.type)
             {
                 case SDL_QUIT:
-                    app.window_open = SDL_FALSE;
+                    window->is_open = SDL_FALSE;
                     break;
                 // case SDL_KEYDOWN:
                 //    // m_handle_input(event.key.keysym.sym);
@@ -59,16 +48,17 @@ void window_renderWindow()
                     
             }
         }
-        SDL_RenderClear(app.renderer);
+        SDL_RenderClear(window->renderer);
         
-        SDL_RenderPresent(app.renderer);
-      //   last_frame = current_frame;
-    }
+        SDL_RenderPresent(window->renderer);
+      //  last_frame = current_frame;
+    
 }
-void window_DestroyWindow()
+void window_DestroyWindow(Window *window)
 {
-    SDL_DestroyRenderer(app.renderer);
-    SDL_DestroyWindow(app.window);
+    printf("Destroying window... \n");
+    SDL_DestroyRenderer(window->renderer);
+    SDL_DestroyWindow(window->window);
   
     
 }

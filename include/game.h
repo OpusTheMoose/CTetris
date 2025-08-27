@@ -27,9 +27,25 @@ typedef struct
     uint8_t x, y;
 } Tile;
 
+typedef struct 
+{
+    Tile tiles[4];
+} ActivePiece;
+
+// 19 possible rotations of the tetrominos. Each one has 4 tiles.
+// static const uint16_t PIECE_LOOKUP_TABLE[19][4] = 
+// {
+//     {
+
+//     }
+// };
+static ActivePiece active_piece;
 // Create a function that returns the respective piece, plus any optional rotation.
 
 
 void game_Init();
+uint16_t game_encodePiece(uint8_t type, uint8_t x, uint8_t y);
+void game_decodePiece(uint16_t encoded);
+void game_spawnNewPiece(int type);
 
 void game_PrintGrid();

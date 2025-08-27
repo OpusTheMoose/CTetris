@@ -18,3 +18,12 @@ void texture_AddTexture(const char* texture, SDL_Rect rect)
    
 
 };
+const Texture* texture_GetTexture(uint8_t textureID)
+{
+    if (textureID > texture_cache_size)
+    {
+        printf("ID out of range, unable to retrive texture");
+    }
+    return &textures[textureID];
+
+}

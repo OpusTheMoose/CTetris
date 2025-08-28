@@ -33,12 +33,12 @@ typedef struct
 } ActivePiece;
 
 // 19 possible rotations of the tetrominos. Each one has 4 tiles.
-// static const uint16_t PIECE_LOOKUP_TABLE[19][4] = 
-// {
-//     {
-
-//     }
-// };
+static const uint16_t PIECE_LOOKUP_TABLE[19][4] = 
+{
+    {
+        0, 1, 2, 3
+    }
+};
 static ActivePiece active_piece;
 // Create a function that returns the respective piece, plus any optional rotation.
 

@@ -1,14 +1,16 @@
 #include "../include/game.h"
 
+#define decodeID(x) (x >> 13) & 7
+#define decodeRow(x) (x >> 8) & 31
+#define decodeCol(x) (x & UINT8_MAX);
 void game_Init()
 {
     // Initalize grid values to 0
     for (int i = 0; i < AREA; i++)
     {
-        grid[i] = 0;
+        grid[i] = EMPTY;
     }
     uint16_t encode = game_encodePiece(TETRIS_BAR, 0, 3);
-    printf("encoded: %i \n", encode);
     game_decodePiece(encode);
   //  printf("%i \n", encode);
 
@@ -31,27 +33,54 @@ void game_decodePiece(uint16_t encoded)
     uint8_t col = (encoded & UINT8_MAX);
     uint8_t row = (encoded >> 8) & 31; //2^5 - 1
     uint8_t ID = (encoded >> 13) & 7;
-    printf("row: %i, col: %i, ID: %i \n", row, col, ID);
 }
 void game_spawnNewPiece(int type)
 {
+    uint16_t piece_data[4];
     switch (type)
     {
         case TETRIS_BAR:
-         //   uint16_t piece_id[4] = PIECE_LOOKUP_TABLE[0];
+            piece_data[0] = PIECE_LOOKUP_TABLE[0][0];
+            piece_data[1] = PIECE_LOOKUP_TABLE[0][1];
+            piece_data[2] = PIECE_LOOKUP_TABLE[0][2];
+            piece_data[3] = PIECE_LOOKUP_TABLE[0][3];
+            break;
+        default:
+            printf("ERROR: Invalid type passed in spawnNewPiece \n");
+            break;
 
     }
+    // Write the piece lookup data to the active tiles. 
+    for (int i = 0; i < 4; i++)
+    {
+        const uint16_t id = decodeID(piece_data[i]);
+        const uint16_t x = decodeCol(piece_data[i]);
+        const uint16_t y = decodeRow(piece_data[i]);
+        active_piece.tiles[i].ID = id;
+        active_piece.tiles[i].x = x;
+        active_piece.tiles[i].y = y;
+        set_square(x, y, id);
+    }
+   
+}
+void game_addTileToGrid(Tile tile)
+{
+   // uint16_t piece = (tile.ID << 13) || (tile.x << 8) || (tile.y);
+    set_square(tile.x, tile.y, tile.ID);
 }
 // For debugging
 void game_PrintGrid()
 {
-    for (int i = 0; i < AREA; i++)
+    for (uint16_t i = 0; i < AREA; i++)
     {
         if (i % COLS == 0)
         {
             printf("\n");
         }
-        printf("%i ", grid[i]);
+        if (grid[i] == UINT16_MAX) printf("-1");
+        else     printf("%i ", grid[i]);
+        
+    
     }
     printf("\n");
 }

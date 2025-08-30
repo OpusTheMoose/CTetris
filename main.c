@@ -18,7 +18,8 @@ int main()
     Window window = window_newWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
     // Initalize the game and piece states
     game_Init();
-   // game_PrintGrid();
+    game_spawnNewPiece(TETRIS_BAR);
+    game_PrintGrid();
 
     // Initialize SDL2_image
     if (IMG_Init(IMG_INIT_PNG) == 0) {

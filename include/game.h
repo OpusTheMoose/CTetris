@@ -6,7 +6,7 @@
 #define ROWS 20
 #define AREA COLS * ROWS
 
-static uint8_t grid[AREA];
+static uint16_t grid[AREA];
 
 #define get_square(row, col) (grid[row * COLS + col])
 #define set_square(row, col, val) (grid[row * COLS + col] = val)
@@ -18,6 +18,8 @@ static uint8_t grid[AREA];
 #define TETRIS_L 4
 #define TETRIS_SKEW 5
 #define TETRIS_Z 6
+
+#define EMPTY UINT16_MAX
 
 // PIECES L AND J HAVE 4 ROTATIONS
 
@@ -33,6 +35,7 @@ typedef struct
 } ActivePiece;
 
 // 19 possible rotations of the tetrominos. Each one has 4 tiles.
+// Implementation details in game_encodePiece
 static const uint16_t PIECE_LOOKUP_TABLE[19][4] = 
 {
     {

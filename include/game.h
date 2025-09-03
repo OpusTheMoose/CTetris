@@ -38,6 +38,7 @@ typedef struct
 
 // 19 possible rotations of the tetrominos. Each one has 4 tiles.
 // Implementation details in game_encodePiece
+// TODO: Make a 1D array
 static const uint16_t PIECE_LOOKUP_TABLE[19][4] = 
 {
     {
@@ -50,8 +51,24 @@ static const uint16_t PIECE_LOOKUP_TABLE[19][4] =
         8192, 8193, 8448, 8449 // SQUARE
     },
     {
-        16385, 16641, 16897, 16640 // T-BAR UP
+        16385, 16641, 16897, 16640 // T UP
     },
+    {
+        16384, 16640, 16896, 16641 // T DOWN
+    },
+    {
+        16384, 16385, 16386, 16641 // T RIGHT
+    },
+    {
+        16640, 16641, 16642, 16385 // T LEFT
+    },
+    {
+       24832, 24833, 24834, 24578 // J UP
+    },
+    {
+            // J DOWN
+    }
+   
 };
 static ActivePiece active_piece;
 // Create a function that returns the respective piece, plus any optional rotation.

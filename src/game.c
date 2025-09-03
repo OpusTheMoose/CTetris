@@ -12,7 +12,10 @@ void game_Init()
         grid[i] = EMPTY;
     }
     //
-    game_encodePiece(TETRIS_T, 1, 0);
+    game_encodePiece(TETRIS_J, 1, 0);
+    game_encodePiece(TETRIS_J, 1, 1);
+    game_encodePiece(TETRIS_J, 1, 2);
+    game_encodePiece(TETRIS_J, 0, 2);
     SDL_Rect text_rect = {.x = 0, .y = 0, .w = 16, .h = 16};
     texture_AddTexture("include/tile.png", text_rect );
 
@@ -61,6 +64,12 @@ void game_spawnNewPiece(int type)
             piece_data[1] = PIECE_LOOKUP_TABLE[3][1];
             piece_data[2] = PIECE_LOOKUP_TABLE[3][2];
             piece_data[3] = PIECE_LOOKUP_TABLE[3][3];
+            break;
+        case TETRIS_J:
+            piece_data[0] = PIECE_LOOKUP_TABLE[7][0];
+            piece_data[1] = PIECE_LOOKUP_TABLE[7][1];
+            piece_data[2] = PIECE_LOOKUP_TABLE[7][2];
+            piece_data[3] = PIECE_LOOKUP_TABLE[7][3];
             break;
         default:
             printf("ERROR: Invalid type passed in spawnNewPiece \n");

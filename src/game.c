@@ -12,10 +12,10 @@ void game_Init()
         grid[i] = EMPTY;
     }
     //
-    game_encodePiece(TETRIS_J, 1, 0);
-    game_encodePiece(TETRIS_J, 1, 1);
-    game_encodePiece(TETRIS_J, 1, 2);
-    game_encodePiece(TETRIS_J, 0, 2);
+    game_encodePiece(TETRIS_L, 2, 0);
+    game_encodePiece(TETRIS_L, 0, 1);
+    game_encodePiece(TETRIS_L, 1, 1);
+    game_encodePiece(TETRIS_L, 2, 1);
     SDL_Rect text_rect = {.x = 0, .y = 0, .w = 16, .h = 16};
     texture_AddTexture("include/tile.png", text_rect );
 
@@ -42,34 +42,43 @@ void game_decodePiece(uint16_t encoded)
     uint8_t ID = (encoded >> 13) & 7;
     printf("%i , %i, %i \n", row, col, ID);
 }
+#define STRIDE 4
 void game_spawnNewPiece(int type)
 {
     uint16_t piece_data[4];
     switch (type)
     {
         case TETRIS_BAR:
-            piece_data[0] = PIECE_LOOKUP_TABLE[0][0];
-            piece_data[1] = PIECE_LOOKUP_TABLE[0][1];
-            piece_data[2] = PIECE_LOOKUP_TABLE[0][2];
-            piece_data[3] = PIECE_LOOKUP_TABLE[0][3];
+            piece_data[0] = PIECE_LOOKUP_TABLE[TETRIS_BAR + ROTATE_0 + 0];
+            piece_data[1] = PIECE_LOOKUP_TABLE[TETRIS_BAR + ROTATE_0 + 1];
+            piece_data[2] = PIECE_LOOKUP_TABLE[TETRIS_BAR + ROTATE_0 + 2];
+            piece_data[3] = PIECE_LOOKUP_TABLE[TETRIS_BAR + ROTATE_0 + 3];
             break;
         case TETRIS_SQUARE:
-            piece_data[0] = PIECE_LOOKUP_TABLE[2][0];
-            piece_data[1] = PIECE_LOOKUP_TABLE[2][1];
-            piece_data[2] = PIECE_LOOKUP_TABLE[2][2];
-            piece_data[3] = PIECE_LOOKUP_TABLE[2][3];
+            // Index starts at 2
+            piece_data[0] = PIECE_LOOKUP_TABLE[(2 * STRIDE) + ROTATE_0 + 0];
+            piece_data[1] = PIECE_LOOKUP_TABLE[(2 * STRIDE) + ROTATE_0 + 1];
+            piece_data[2] = PIECE_LOOKUP_TABLE[(2 * STRIDE) + ROTATE_0 + 2];
+            piece_data[3] = PIECE_LOOKUP_TABLE[(2 * STRIDE) + ROTATE_0 + 3];
             break;
         case TETRIS_T:
-            piece_data[0] = PIECE_LOOKUP_TABLE[3][0];
-            piece_data[1] = PIECE_LOOKUP_TABLE[3][1];
-            piece_data[2] = PIECE_LOOKUP_TABLE[3][2];
-            piece_data[3] = PIECE_LOOKUP_TABLE[3][3];
+            // Index starts at 3
+            piece_data[0] = PIECE_LOOKUP_TABLE[(3 * STRIDE) + ROTATE_0 + 0];
+            piece_data[1] = PIECE_LOOKUP_TABLE[(3 * STRIDE) + ROTATE_0 + 1];
+            piece_data[2] = PIECE_LOOKUP_TABLE[(3 * STRIDE) + ROTATE_0 + 2];
+            piece_data[3] = PIECE_LOOKUP_TABLE[(3 * STRIDE) + ROTATE_0 + 3];
             break;
         case TETRIS_J:
-            piece_data[0] = PIECE_LOOKUP_TABLE[7][0];
-            piece_data[1] = PIECE_LOOKUP_TABLE[7][1];
-            piece_data[2] = PIECE_LOOKUP_TABLE[7][2];
-            piece_data[3] = PIECE_LOOKUP_TABLE[7][3];
+            piece_data[0] = PIECE_LOOKUP_TABLE[(7 * STRIDE) + ROTATE_0 + 0];
+            piece_data[1] = PIECE_LOOKUP_TABLE[(7 * STRIDE) + ROTATE_0 + 1];
+            piece_data[2] = PIECE_LOOKUP_TABLE[(7 * STRIDE) + ROTATE_0 + 2];
+            piece_data[3] = PIECE_LOOKUP_TABLE[(7 * STRIDE) + ROTATE_0 + 3];
+            break;
+        case TETRIS_L:
+            piece_data[0] = PIECE_LOOKUP_TABLE[(11 * STRIDE) + ROTATE_0 + 0];
+            piece_data[1] = PIECE_LOOKUP_TABLE[(11 * STRIDE) + ROTATE_0 + 1];
+            piece_data[2] = PIECE_LOOKUP_TABLE[(11 * STRIDE) + ROTATE_0 + 2];
+            piece_data[3] = PIECE_LOOKUP_TABLE[(11 * STRIDE) + ROTATE_0 + 3];
             break;
         default:
             printf("ERROR: Invalid type passed in spawnNewPiece \n");

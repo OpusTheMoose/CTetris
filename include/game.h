@@ -21,6 +21,11 @@ static uint16_t grid[AREA];
 #define TETRIS_SKEW 5
 #define TETRIS_Z 6
 
+#define ROTATE_0 0 
+#define ROTATE_1 1
+#define ROTATE_2 2
+#define ROTATE_3 3
+
 #define EMPTY UINT16_MAX
 
 // PIECES L AND J HAVE 4 ROTATIONS
@@ -39,37 +44,68 @@ typedef struct
 // 19 possible rotations of the tetrominos. Each one has 4 tiles.
 // Implementation details in game_encodePiece
 // TODO: Make a 1D array
-static const uint16_t PIECE_LOOKUP_TABLE[19][4] = 
+static const uint16_t PIECE_LOOKUP_TABLE[76] = 
 {
-    {
-        0, 1, 2, 3, // TETRIS BAR VERTICAL
-    },
-    {
-        0, 256, 512, 768 // TETRIS BAR HORIZONTAL
-    },
-    {
-        8192, 8193, 8448, 8449 // SQUARE
-    },
-    {
-        16385, 16641, 16897, 16640 // T UP
-    },
-    {
-        16384, 16640, 16896, 16641 // T DOWN
-    },
-    {
-        16384, 16385, 16386, 16641 // T RIGHT
-    },
-    {
-        16640, 16641, 16642, 16385 // T LEFT
-    },
-    {
-       24832, 24833, 24834, 24578 // J UP
-    },
-    {
-            // J DOWN
-    }
-   
+    0,     1,     2,   3,
+    0,     256,   512, 768,
+    8192,  8193,  8448, 8449,
+    16385, 16641, 16897, 16640,
+    16384, 16640, 16896, 16641,
+    16640, 16641, 16642, 16385,
+    24832, 24833, 24834, 24578,
+    24576, 24832, 25088, 25089,
+    24576, 24832, 24577, 24578,
+    24576, 24577, 24833, 25089,
+    32768, 33024, 33025, 33026, 
+    33280, 32769, 33025, 33281
+
 };
+// static const uint16_t PIECE_LOOKUP_TABLE[19][4] = 
+// {
+//     {
+//         0, 1, 2, 3, // TETRIS BAR VERTICAL
+//     },
+//     {
+//         0, 256, 512, 768 // TETRIS BAR HORIZONTAL
+//     },
+//     {
+//         8192, 8193, 8448, 8449 // SQUARE
+//     },
+//     {
+//         16385, 16641, 16897, 16640 // T UP
+//     },
+//     {
+//         16384, 16640, 16896, 16641 // T DOWN
+//     },
+//     {
+//         16384, 16385, 16386, 16641 // T RIGHT
+//     },
+//     {
+//         16640, 16641, 16642, 16385 // T LEFT
+//     },
+//     {
+//        24832, 24833, 24834, 24578 // J UP
+//     },
+//     {
+//         24576, 24832, 25088, 25089  // J DOWN
+//     },
+//     {
+//       24576, 24832, 24577, 24578  // J LEFT
+//     },
+//     {
+//       24576, 24577, 24833, 25089  // J RIGHT
+//     },
+//     {
+//        32768, 33024, 33025, 33026 // L UP (or whatever idk the orientations)
+//     },
+//     {
+//        33280, 32769, 33025, 33281 // L LEFT
+//     },
+//     {
+        
+//     }
+   
+// };
 static ActivePiece active_piece;
 // Create a function that returns the respective piece, plus any optional rotation.
 

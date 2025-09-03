@@ -19,7 +19,7 @@ int main()
      texture_Init(window.renderer);
     // Initalize the game and piece states
     game_Init();
-    game_spawnNewPiece(TETRIS_BAR);
+    game_spawnNewPiece(TETRIS_T);
     game_PrintGrid();
 
    uint64_t last_tick = SDL_GetTicks64();

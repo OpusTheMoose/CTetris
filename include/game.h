@@ -31,8 +31,6 @@ typedef struct
     uint8_t x, y;
 } Tile;
 
-
-
 typedef struct 
 {
     Tile tiles[4];
@@ -43,8 +41,17 @@ typedef struct
 static const uint16_t PIECE_LOOKUP_TABLE[19][4] = 
 {
     {
-        0, 1, 2, 3 // TETRIS BAR VERTICAL
-    }
+        0, 1, 2, 3, // TETRIS BAR VERTICAL
+    },
+    {
+        0, 256, 512, 768 // TETRIS BAR HORIZONTAL
+    },
+    {
+        8192, 8193, 8448, 8449 // SQUARE
+    },
+    {
+        16385, 16641, 16897, 16640 // T-BAR UP
+    },
 };
 static ActivePiece active_piece;
 // Create a function that returns the respective piece, plus any optional rotation.

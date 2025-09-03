@@ -11,8 +11,8 @@ void game_Init()
     {
         grid[i] = EMPTY;
     }
-    uint16_t encode = game_encodePiece(TETRIS_BAR, 0, 3);
-    game_decodePiece(encode);
+    //
+    game_encodePiece(TETRIS_T, 1, 0);
     SDL_Rect text_rect = {.x = 0, .y = 0, .w = 16, .h = 16};
     texture_AddTexture("include/tile.png", text_rect );
 
@@ -28,8 +28,8 @@ uint16_t game_encodePiece(uint8_t type, uint8_t row, uint8_t col)
     uint16_t encode = 0;
     encode |= col; // Low byte
     encode |= (row << 8); // High byte
-   // encode |= (7 << 13); // Mask the last 3 digits to be 1 (111 in binary or 7)
     encode |= (type << 13); // Now mask the last 3 bits
+    printf("Encode: %i \n", encode);
     return encode;
 }
 void game_decodePiece(uint16_t encoded)
@@ -37,6 +37,7 @@ void game_decodePiece(uint16_t encoded)
     uint8_t col = (encoded & UINT8_MAX);
     uint8_t row = (encoded >> 8) & 31; //2^5 - 1
     uint8_t ID = (encoded >> 13) & 7;
+    printf("%i , %i, %i \n", row, col, ID);
 }
 void game_spawnNewPiece(int type)
 {
@@ -48,6 +49,18 @@ void game_spawnNewPiece(int type)
             piece_data[1] = PIECE_LOOKUP_TABLE[0][1];
             piece_data[2] = PIECE_LOOKUP_TABLE[0][2];
             piece_data[3] = PIECE_LOOKUP_TABLE[0][3];
+            break;
+        case TETRIS_SQUARE:
+            piece_data[0] = PIECE_LOOKUP_TABLE[2][0];
+            piece_data[1] = PIECE_LOOKUP_TABLE[2][1];
+            piece_data[2] = PIECE_LOOKUP_TABLE[2][2];
+            piece_data[3] = PIECE_LOOKUP_TABLE[2][3];
+            break;
+        case TETRIS_T:
+            piece_data[0] = PIECE_LOOKUP_TABLE[3][0];
+            piece_data[1] = PIECE_LOOKUP_TABLE[3][1];
+            piece_data[2] = PIECE_LOOKUP_TABLE[3][2];
+            piece_data[3] = PIECE_LOOKUP_TABLE[3][3];
             break;
         default:
             printf("ERROR: Invalid type passed in spawnNewPiece \n");

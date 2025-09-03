@@ -1,6 +1,7 @@
 #pragma once
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <SDL2/SDL.h>
 
 #define COLS 10
@@ -42,7 +43,7 @@ typedef struct
 static const uint16_t PIECE_LOOKUP_TABLE[19][4] = 
 {
     {
-        0, 1, 2, 3
+        0, 1, 2, 3 // TETRIS BAR VERTICAL
     }
 };
 static ActivePiece active_piece;

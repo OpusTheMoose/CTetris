@@ -64,7 +64,7 @@ void game_spawnNewPiece(int type)
         active_piece.tiles[i].ID = id;
         active_piece.tiles[i].x = x;
         active_piece.tiles[i].y = y;
-        set_square(x, y, id);
+        // set_square(y, x, id);
     }
     
    
@@ -74,6 +74,14 @@ void game_addTileToGrid(Tile tile)
    // uint16_t piece = (tile.ID << 13) || (tile.x << 8) || (tile.y);
     set_square(tile.x, tile.y, tile.ID);
 }
+bool bottom_intersection()
+{
+    return  active_piece.tiles[0].y >= ROWS || 
+            active_piece.tiles[1].y >= ROWS ||
+            active_piece.tiles[2].y >= ROWS ||
+            active_piece.tiles[3].y >= ROWS;
+
+}
 void game_Update(float dt)
 {
     timer += dt;
@@ -81,11 +89,26 @@ void game_Update(float dt)
     if (timer > 0.5) timer = 0;
     else return;
 
-
     for (int i = 0; i < 4; i++)
     {
         active_piece.tiles[i].y += 1;
     }
+    // Undo the last section (something something command design pattern)
+    if (bottom_intersection())
+    {
+        // Undo
+        const uint16_t id = active_piece.tiles[0].ID;
+        for (int i = 0; i < 4; i++)
+        {
+            active_piece.tiles[i].y -= 1;
+             // Write to the grid. These tiles are now effectively "static".
+            set_square(active_piece.tiles[i].y, active_piece.tiles[i].x, id);
+            game_PrintGrid();
+        }
+       
+
+    }
+    
 }
 void game_Draw(SDL_Renderer* renderer )
 {

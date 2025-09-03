@@ -48,11 +48,12 @@ static const uint16_t PIECE_LOOKUP_TABLE[19][4] =
 static ActivePiece active_piece;
 // Create a function that returns the respective piece, plus any optional rotation.
 
-
+static float timer = 0.0; // Initalize the timer for piece falling.
 void game_Init();
 uint16_t game_encodePiece(uint8_t type, uint8_t x, uint8_t y);
 void game_decodePiece(uint16_t encoded);
 void game_spawnNewPiece(int type);
+void game_Update(float dt);
 void game_Draw(SDL_Renderer* renderer );
 
 void game_PrintGrid();

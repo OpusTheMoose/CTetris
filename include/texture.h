@@ -21,5 +21,5 @@ static Texture textures[TEXTURE_LIMIT];
 static SDL_Renderer* texture_renderer;
 
 void texture_AddTexture(const char* file, SDL_Rect rect);
-const Texture* texture_GetTexture(uint8_t textureID);
+Texture* texture_GetTexture(uint8_t textureID);
 void texture_Init(SDL_Renderer* renderer_);

@@ -7,6 +7,15 @@
         "random": "c",
         "string_view": "c",
         "sdl.h": "c",
-        "sdl_image.h": "c"
+        "sdl_image.h": "c",
+        "array": "c",
+        "chrono": "c",
+        "deque": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "vector": "c",
+        "format": "c",
+        "initializer_list": "c",
+        "span": "c"
     }
 }

@@ -58,8 +58,8 @@ void game_spawnNewPiece(int type)
     for (int i = 0; i < 4; i++)
     {
         const uint16_t id = decodeID(piece_data[i]);
-        const uint16_t x = decodeCol(piece_data[i]);
-        const uint16_t y = decodeRow(piece_data[i]);
+        const uint16_t y = decodeCol(piece_data[i]);
+        const uint16_t x = decodeRow(piece_data[i]);
      
         active_piece.tiles[i].ID = id;
         active_piece.tiles[i].x = x;
@@ -74,17 +74,31 @@ void game_addTileToGrid(Tile tile)
    // uint16_t piece = (tile.ID << 13) || (tile.x << 8) || (tile.y);
     set_square(tile.x, tile.y, tile.ID);
 }
+void game_Update(float dt)
+{
+    timer += dt;
+    // Arbiturary threshold for now
+    if (timer > 0.5) timer = 0;
+    else return;
+
+
+    for (int i = 0; i < 4; i++)
+    {
+        active_piece.tiles[i].y += 1;
+    }
+}
 void game_Draw(SDL_Renderer* renderer )
 {
     Texture* piece = texture_GetTexture(0);
    
     for (int i = 0; i < 4; i++) // gcc will probably optimize this out
     {
+        // Flipped x and y, since im doing row/columns
         SDL_Rect rect = {
-            .x = (float)active_piece.tiles[i].x * 16.0,
-            .y = (float)active_piece.tiles[i].y * 16.0,
-            .w = 16.0,
-            .h = 16.0
+            .x = (float)active_piece.tiles[i].x * 32.0,
+            .y = (float)active_piece.tiles[i].y * 32.0,
+            .w = 32.0,
+            .h = 32.0
         };
      //   printf("%f \n", (float)active_piece.tiles[i].x * 16.0);
         SDL_RenderCopy(renderer, piece->text, NULL, &rect);

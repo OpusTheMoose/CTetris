@@ -1,4 +1,5 @@
 #include "../include/game.h"
+#include "../include/texture.h"
 
 #define decodeID(x) (x >> 13) & 7
 #define decodeRow(x) (x >> 8) & 31
@@ -12,6 +13,9 @@ void game_Init()
     }
     uint16_t encode = game_encodePiece(TETRIS_BAR, 0, 3);
     game_decodePiece(encode);
+    SDL_Rect text_rect = {.x = 0, .y = 0, .w = 16, .h = 16};
+    texture_AddTexture("include/tile.png", text_rect );
+
   //  printf("%i \n", encode);
 
 }
@@ -56,17 +60,35 @@ void game_spawnNewPiece(int type)
         const uint16_t id = decodeID(piece_data[i]);
         const uint16_t x = decodeCol(piece_data[i]);
         const uint16_t y = decodeRow(piece_data[i]);
+     
         active_piece.tiles[i].ID = id;
         active_piece.tiles[i].x = x;
         active_piece.tiles[i].y = y;
         set_square(x, y, id);
     }
+    
    
 }
 void game_addTileToGrid(Tile tile)
 {
    // uint16_t piece = (tile.ID << 13) || (tile.x << 8) || (tile.y);
     set_square(tile.x, tile.y, tile.ID);
+}
+void game_Draw(SDL_Renderer* renderer )
+{
+    Texture* piece = texture_GetTexture(0);
+   
+    for (int i = 0; i < 4; i++) // gcc will probably optimize this out
+    {
+        SDL_Rect rect = {
+            .x = (float)active_piece.tiles[i].x * 16.0,
+            .y = (float)active_piece.tiles[i].y * 16.0,
+            .w = 16.0,
+            .h = 16.0
+        };
+     //   printf("%f \n", (float)active_piece.tiles[i].x * 16.0);
+        SDL_RenderCopy(renderer, piece->text, NULL, &rect);
+    }
 }
 // For debugging
 void game_PrintGrid()

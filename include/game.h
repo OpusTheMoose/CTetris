@@ -1,6 +1,7 @@
 #pragma once
 #include <stdio.h>
 #include <stdint.h>
+#include <SDL2/SDL.h>
 
 #define COLS 10
 #define ROWS 20
@@ -29,6 +30,8 @@ typedef struct
     uint8_t x, y;
 } Tile;
 
+
+
 typedef struct 
 {
     Tile tiles[4];
@@ -50,5 +53,6 @@ void game_Init();
 uint16_t game_encodePiece(uint8_t type, uint8_t x, uint8_t y);
 void game_decodePiece(uint16_t encoded);
 void game_spawnNewPiece(int type);
+void game_Draw(SDL_Renderer* renderer );
 
 void game_PrintGrid();
